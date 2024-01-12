@@ -1,0 +1,17 @@
+mysql config
+docker run --detach --env MYSQL_ROOT_PASSWORD=root --env MYSQL_USER=user --env MYSQL_PASSWORD=dummy --env MYSQL_DATABASE=database --name dishRecommender --publish 3310:3306 mysql:8-oracle
+
+postgrasql test
+docker run -itd -e POSTGRES_USER=dishrecommender -e POSTGRES_PASSWORD=root -e POSTGRES_DB=dishrecommender -p 5440:5432 --name dish-recommender postgres
+
+postgresql live
+docker run -itd -e POSTGRES_USER=dishrecommender -e POSTGRES_PASSWORD=root -e POSTGRES_DB=dishrecommender -p 5441:5432 --name dish-recommender-live postgres
+
+#command for copy the jar file
+scp dish-recommender-0.0.1-SNAPSHOT.jar admin@192.168.0.20:/home/admin/dish-recommender
+
+#command to copy the react app
+sudo scp -r /home/christoph/Projects/React/dish-recommender-ts/build/* admin@192.168.0.20:/var/www/html
+
+# start app with an external application.properties
+nohup java -jar dish-recommender-0.0.1-SNAPSHOT.jar --spring.config.location=file:/home/admin/dish-recommender/application.properties &
